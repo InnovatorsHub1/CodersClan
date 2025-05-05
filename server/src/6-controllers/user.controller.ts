@@ -1,1 +1,0 @@
-import UserModel from "../3-models/user.model";
