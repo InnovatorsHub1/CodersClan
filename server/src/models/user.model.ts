@@ -1,19 +1,26 @@
-import { Schema, model } from "mongoose";
-import { IUser } from "../interfaces/user.interface";
+import { Document, ObjectId, Schema, model } from 'mongoose';
 
-const UserSchema: Schema = new Schema(
-  {
+export interface IUser extends Document {
+    _id: ObjectId;
+    firstName: string;
+    lastName: string;
+    email: string;
+    password: string;
+    roleId: string;
+}
+
+const UserSchema = new Schema<IUser>({
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
     email: { type: String, required: true, unique: true },
-    phone: { type: String, required: true },
     password: { type: String, required: true },
-    role: { type: String, required: true, enum: ["admin", "user"] },
-  },
-  {
-    timestamps: true,
-  }
+    roleId: { type: String, required: true },
+},
+    {
+        timestamps: true,      // ← enable createdAt & updatedAt
+    }
+
 );
 
-const UserModel = model<IUser>("User", UserSchema);
-export default UserModel;
+export const UserModel = model<IUser>('User', UserSchema, 'users');
+
